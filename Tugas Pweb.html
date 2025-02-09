@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Biodata</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #D6EAF8;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: absolute;
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        label {
+            text-align: left;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .biodata-container {
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-pic {
+            width: 130px;
+            height: 160px;
+            border-radius: 20%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .profile-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Halaman Awal -->
+    <div class="container active" id="home">
+        <h1>Selamat Datang!</h1>
+        <p>"Kesuksesan dimulai dengan langkah kecil, jangan takut untuk mencoba!"</p>
+        <button class="button" onclick="showPage('loginForm')">Login</button>
+        <button class="button" onclick="showPage('registerForm')">Register</button>
+    </div>
+
+    <!-- Halaman Login -->
+    <div class="container" id="loginForm">
+        <h2>Login</h2>
+        <form onsubmit="login(event)">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" required>
+
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Halaman Register -->
+    <div class="container" id="registerForm">
+        <h2>Registrasi</h2>
+        <form onsubmit="register(event)">
+            <label for="name">Nama Lengkap:</label>
+            <input type="text" id="name" required>
+
+            <label for="address">Alamat:</label>
+            <input type="text" id="address" required>
+
+            <label for="school">Asal Sekolah:</label>
+            <input type="text" id="school" required>
+
+            <label for="dream">Cita-Cita:</label>
+            <input type="text" id="dream" required>
+
+            <label for="hobby">Hobi:</label>
+            <input type="text" id="hobby" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <label for="photo">Upload Foto:</label>
+            <input type="file" id="photo" accept="image/*" required>
+
+            <button type="submit">Daftar</button>
+        </form>
+    </div>
+
+    <!-- Halaman Biodata -->
+    <div class="biodata-container" id="biodata">
+        <div class="profile-card">
+            <img id="user-photo" class="profile-pic" src="" alt="Foto Profil">
+            <h2 id="user-name"></h2>
+            <div class="profile-info">
+                <p><strong>Alamat:</strong> <span id="user-address"></span></p>
+                <p><strong>Asal Sekolah:</strong> <span id="user-school"></span></p>
+                <p><strong>Cita-Cita:</strong> <span id="user-dream"></span></p>
+                <p><strong>Hobi:</strong> <span id="user-hobby"></span></p>
+                <p><strong>Email:</strong> <span id="user-email"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function register(event) {
+            event.preventDefault();
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem("photo", e.target.result);
+                localStorage.setItem("name", document.getElementById("name").value);
+                localStorage.setItem("address", document.getElementById("address").value);
+                localStorage.setItem("school", document.getElementById("school").value);
+                localStorage.setItem("dream", document.getElementById("dream").value);
+                localStorage.setItem("hobby", document.getElementById("hobby").value);
+                localStorage.setItem("email", document.getElementById("email").value);
+                showBiodata();
+            };
+            reader.readAsDataURL(document.getElementById("photo").files[0]);
+        }
+
+        function showBiodata() {
+    document.getElementById("biodata").style.display = "flex";
+    document.getElementById("user-photo").src = localStorage.getItem("photo");
+    document.getElementById("biodata").style.backgroundImage = `url('${localStorage.getItem("photo")}')`; // Tambahkan background foto
+    document.getElementById("biodata").style.backgroundSize = "cover";
+    document.getElementById("biodata").style.backgroundPosition = "center";
+    document.getElementById("biodata").style.backgroundRepeat = "no-repeat";
+
+    document.getElementById("user-name").innerText = localStorage.getItem("name");
+    document.getElementById("user-address").innerText = localStorage.getItem("address");
+    document.getElementById("user-school").innerText = localStorage.getItem("school");
+    document.getElementById("user-dream").innerText = localStorage.getItem("dream");
+    document.getElementById("user-hobby").innerText = localStorage.getItem("hobby");
+    document.getElementById("user-email").innerText = localStorage.getItem("email");
+}
+
+    </script>
+
+</body>
+</html>
